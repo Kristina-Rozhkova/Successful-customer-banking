@@ -1,20 +1,22 @@
-def filter_by_state(lists_of_dict_1: list[dict], state: str = "EXECUTED") -> list[dict]:
+from typing import List, Dict
+
+
+def filter_by_state(list_of_dicts: List[Dict], state: str = "EXECUTED") -> List[Dict]:
     """
     Функция принимает список словарей и опционально значение для ключа state, возвращает новый список словарей,
     содержащий только те словари, у которых ключ state соответствует указанному значению
     """
 
     new_list = []
-    for dictionaries in lists_of_dict_1:
-        for value in dictionaries.values():
-            if value == state:
-                new_list.append(dictionaries)
+    for dictionaries in list_of_dicts:
+        if state in dictionaries:
+            new_list.append(dictionaries)
     return new_list
 
 
-def sort_by_date(lists_of_dict_2: list[dict], order: bool = True) -> list[dict]:
+def sort_by_date(list_of_dicts: List[Dict], order: bool = True) -> List[Dict]:
     """
     Функция возвращает список, отсортированный по дате
     """
-    sorted_list = sorted(lists_of_dict_2, key=lambda date: date["date"], reverse=order)
+    sorted_list = sorted(list_of_dicts, key=lambda date: date["date"], reverse=order)
     return sorted_list
