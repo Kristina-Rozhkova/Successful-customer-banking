@@ -7,11 +7,11 @@ def mask_account_card(numb: str) -> str:
     number_card = ""
     if numb == "":
         raise ValueError("Не введены данные номера карты или счета")
-    elif "Счет" in numb:
+    if "Счет" in numb:
         number_card = numb[5:]
         if len(number_card) == 20:
             return "Счет " + get_mask_account(number_card)
-        elif len(number_card) != 20:
+        else:
             raise ValueError("Неверная длина номера счета")
     else:
         for letter in numb:
@@ -21,7 +21,7 @@ def mask_account_card(numb: str) -> str:
                 number_card += letter
         if len(number_card) == 16:
             return name_of_card + get_mask_card_number(number_card)
-        elif len(number_card) != 16:
+        else:
             raise ValueError("Неверная длина номера карты")
 
 
