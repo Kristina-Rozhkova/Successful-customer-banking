@@ -11,8 +11,8 @@
 ---
 ## Установка
 
-1. Клонирование репозитория по [SSH-ключу](git@github.com:Kristina-Rozhkova/Successful-customer-banking.git) или [HTTPS](https://github.com/Kristina-Rozhkova/Successful-customer-banking.git)
-3. Все зависимости описаны в файле **peproject.toml**, все исключения добавлены в **.gitignore** установку необходимо
+1. Клонирование репозитория по [HTTPS](https://github.com/Kristina-Rozhkova/Successful-customer-banking.git)
+2. Все зависимости описаны в файле **peproject.toml**, все исключения добавлены в **.gitignore** установку необходимо
 начать с:
 ```
 poetry install
@@ -24,6 +24,7 @@ poetry install
 - [masks.py](src/masks.py)
 - [widget.py](src/widget.py)
 - [processing.py](src/processing.py)
+- [generators.py](src/generators.py)
 
 
 ---
@@ -96,6 +97,8 @@ poetry install
 
 - `def sort_by_date()` - *Функция должна возвращать новый список, отсортированный по дате (date)*
 
+  *Пример работы функции:*  
+
   `# Выход функции (сортировка по убыванию, т. е. сначала самые последние операции)`
   
   `[{'id': 41428829, 'state': 'EXECUTED', 'date': '2019-07-03T18:35:29.512364'}, {'id': 615064591, 'state': 'CANCELED', 'date': '2018-10-14T08:21:33.419441'}, {'id': 594226727, 'state': 'CANCELED', 'date': '2018-09-12T21:27:25.241689'}, {'id': 939719570, 'state': 'EXECUTED', 'date': '2018-06-30T02:08:58.425572'}]`
@@ -103,6 +106,80 @@ poetry install
   `# Пример входных данных`
 
   `[{'id': 41428829, 'state': 'EXECUTED', 'date': '2019-07-03T18:35:29.512364'}, {'id': 939719570, 'state': 'EXECUTED', 'date': '2018-06-30T02:08:58.425572'}, {'id': 594226727, 'state': 'CANCELED', 'date': '2018-09-12T21:27:25.241689'}, {'id': 615064591, 'state': 'CANCELED', 'date': '2018-10-14T08:21:33.419441'}]`
+
+4. **generators.py**
+
+Этот модуль содержит функции, реализующие генераторы для обработки данных.
+
+- `def filter_by_currency()` - *Функция принимает на вход список словарей, представляющих транзакции и возвращает итератор, который поочередно выдает транзакции, где валюта операции соответствует заданной (например, USD).*
+  
+  *Пример использования функции:*
+
+  ` usd_transactions = filter_by_currency(transactions, "USD")
+    for _ in range(3):
+      print(next(usd_transactions)) `
+
+>>> {
+          "id": 939719570,
+          "state": "EXECUTED",
+          "date": "2018-06-30T02:08:58.425572",
+          "operationAmount": {
+              "amount": "9824.07",
+              "currency": {
+                  "name": "USD",
+                  "code": "USD"
+              }
+          },
+          "description": "Перевод организации",
+          "from": "Счет 75106830613657916952",
+          "to": "Счет 11776614605963066702"
+      }
+      {
+              "id": 142264268,
+              "state": "EXECUTED",
+              "date": "2019-04-04T23:20:05.206878",
+              "operationAmount": {
+                  "amount": "79114.93",
+                  "currency": {
+                      "name": "USD",
+                      "code": "USD"
+                  }
+              },
+              "description": "Перевод со счета на счет",
+              "from": "Счет 19708645243227258542",
+              "to": "Счет 75651667383060284188"
+       }
+
+
+- `def transaction_descriptions()` - *Функция-генератор, который принимает список словарей с транзакциями
+    и возвращает описание каждой операции по очереди*
+
+    *Пример использования функции:*
+
+    `descriptions = transaction_descriptions(transactions)
+     for _ in range(5):
+        print(next(descriptions))`
+
+>>> Перевод организации
+    Перевод со счета на счет
+    Перевод со счета на счет
+    Перевод с карты на карту
+    Перевод организации
+
+- `def card_number_generator()` - *Функция-генератор, который выдает номера банковских карт
+    в формате XXXX XXXX XXXX XXXX, где X — цифра номера карты.*
+
+    *Пример использования функции:*
+
+    `for card_number in card_number_generator(1, 5):
+     print(card_number)`
+
+>>> 0000 0000 0000 0001
+    0000 0000 0000 0002
+    0000 0000 0000 0003
+    0000 0000 0000 0004
+    0000 0000 0000 0005
+
 ---
 
 
@@ -113,12 +190,14 @@ poetry install
 -[test_masks.py](tests/test_masks.py)
 -[test_processing.py](tests/test_processing.py)
 -[test_widget.py](tests/test_widget.py)
+-[test_generators.py](tests/test_generators.py)
 
 ---
 
 **Содержание модулей:**
 
 1. **conftest.py:**
+
 Модуль содержит фикстуры с выходными данными для последующих тестов.
 
 - Фикстуры для модуля test_mask.py:
@@ -149,7 +228,20 @@ poetry install
 
 `def date_sort():` - *Функция выводит результат работы функции, которая сортирует список словарей по возрастанию или убыванию(по умолчанию)*
 
+- Фикстуры для модуля generators.py:
+
+`def transaction()` - *Функция выводит входные данные в виде списка транзакций*
+
+`def usd_filtered()` - *Функция возвращает отфильтрованный список транзакций по коду валюты **"USD"***
+
+`def rub_filtered()` - *Функция возвращает отфильтрованный список транзакций по коду валюты **"RUB"***
+
+`def clear_transaction()` - *Функция выводит входные данные в качестве пустого списка транзакций*
+
+`def card_numbers_from_one_to_five()` *Функция возвращает результат работы функции **card_numbers**: первые 5 номеров карт*
+
 2. **test_masks.py:**
+
 Модуль проверяет работу функций из рабочего модуля **masks.py**.
 
 `def test_get_mask_card_number(card_number):` - *Функция проверяет работу функции **get_mask_card_number***
@@ -157,6 +249,7 @@ poetry install
 `def test_get_mask_account(account_number):` - *Функция проверяет работу функции **get_mask_account***
 
 3. **test_widget.py**
+
 Модуль проверяет работу функций из модуля **widget.py**.
 
 `def test_mask_account_card(numb, expected):` - *Функция тестирует работу функции **mask_account_card***
@@ -174,6 +267,7 @@ poetry install
 `def test_get_date_missing_data(get_date_invalid)` - *Функция проверяет работу функции **get_date** в случае, когда пользователь не ввел никакое значение*
 
 4. **test_processing.py**
+
 Модуль проверяет работу функций из модуля **processing.py**.
 
 `def test_filter_by_state_executed(list_of_dicts, test_filter_executed)` - *Функция проверяет работу функции **filter_by_state** со значением **'EXECUTED'** по ключу 'state'*
@@ -181,6 +275,26 @@ poetry install
 `def test_filter_by_state_canceled(list_of_dicts, test_filter_canceled)` - *Функция проверяет работу функции **filter_by_state** со значением **'CANCELED'** по ключу 'state'*
 
 `def test_sort_by_date(list_of_dicts, date_sort)` - *Функция проверяет работу функции **sort_by_date***
+
+5. **test_generators.py**
+
+Модуль проверяет работу функций из модуля **generators.py**.
+
+`def test_filter_by_currency_usd()` - *Функция проверяет работу функции **filter_by_currency** со значением **"USD"** по ключу **"code"***
+
+`def test_filter_by_currency_rub`- *Функция проверяет работу функции **filter_by_currency** со значением **"RUB"** по ключу **"code"***
+
+`def test_filter_by_currency_incorrect()` - *Функция проверяет работу функции **filter_by_currency** в случае, когда указанного пользователем значения не нашлось в списке не нашлось*
+
+`def test_filter_by_currency_with_clear_transaction()` - *Функция проверяет работу функции **filter_by_currency** в случае, когда на вход подается пустой список транзакций*
+
+`def test_transaction_descriptions()` - *Функция проверяет корректность работы функции **transaction_descriptions**. На вход подается основной список транзакций и отфильтрованные списки транзакций со значениями **"USD"** или **"RUB***
+
+`def test_transaction_descriptions_with_clear_list()` - *Функция проверяет работу функции **transaction_descriptions** в случае, когда на вход подается пустой список транзакций*
+
+`def test_card_number_generator()` - *Функция проверяет корректность работы функции **card_number_generator***
+
+``
 
 ---
 
