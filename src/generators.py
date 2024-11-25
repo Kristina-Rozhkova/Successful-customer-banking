@@ -1,4 +1,4 @@
-from typing import Dict, Generator, Iterator, List, Union
+from typing import Dict, Generator, List, Union
 
 transactions = [
     {
@@ -51,19 +51,18 @@ transactions = [
 
 def filter_by_currency(
     some_transactions: List[Dict], currency_code: str = "USD"
-) -> Union[Iterator[Dict], str]:
+) -> Generator[Union[str, Dict], None, None]:
     """Функция принимает на вход список словарей, представляющих транзакции"""
 
     if some_transactions == []:
-        return "Список транзакций пуст"
+        yield "Список транзакций пуст"
     if currency_code not in ["USD", "RUB"]:
-        return "Код валюты не найден. Пожалуйста, введите одну из имеющихся: USD или RUB"
+        yield "Код валюты не найден. Пожалуйста, введите одну из имеющихся: USD или RUB"
 
     for transaction in some_transactions:
         if transaction["operationAmount"]["currency"]["code"] == currency_code:
             yield transaction
 
-    return iter([])
 
 # для проверки работы функции
 # currency_code = str(input())
@@ -71,20 +70,20 @@ def filter_by_currency(
 # for _ in range(3):
 #     print(next(usd_transactions))
 
+# usd_transactions = filter_by_currency(transactions)
+# for transaction in usd_transactions:
+#   print(transaction)
 
-def transaction_descriptions(transaction: List[Dict]) -> Union[Generator[Dict, None, None], str]:
+def transaction_descriptions(transaction: List[Dict]) -> Generator[Union[str, Dict], None, None]:
     """
     Функция-генератор, который принимает список словарей с транзакциями
     и возвращает описание каждой операции по очереди
     """
 
     if transaction == []:
-        return "Список транзакций пуст"
+        yield "Список транзакций пуст"
     for description in transaction:
         yield description["description"]
-    # возвращаем пустой генератор для удовлетворения mypy в случае когда возвращается строка,
-    # чтобы не возникала ошибка "error: Missing return statement"
-    return iter([])
 
 
 # для проверки работы функции
@@ -93,7 +92,7 @@ def transaction_descriptions(transaction: List[Dict]) -> Union[Generator[Dict, N
 #     print(next(descriptions))
 
 
-def card_number_generator(start: int, end: int) -> Union[Generator[Dict, None, None], str]:
+def card_number_generator(start: int, end: int) -> Generator[Union[str, Dict], None, None]:
     """
     Функция-генератор, который выдает номера банковских карт
     в формате XXXX XXXX XXXX XXXX, где X — цифра номера карты.
@@ -103,9 +102,6 @@ def card_number_generator(start: int, end: int) -> Union[Generator[Dict, None, N
         card_number = f"{number:016}"
         formatted_card_number = " ".join(card_number[i: i + 4] for i in range(0, len(card_number), 4))
         yield formatted_card_number
-    # возвращаем пустой генератор для удовлетворения mypy в случае когда возвращается строка,
-    # чтобы не возникала ошибка "error: Missing return statement"
-    return iter([])
 
 
 # для проверки работы функции
