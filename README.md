@@ -25,6 +25,7 @@ poetry install
 - [widget.py](src/widget.py)
 - [processing.py](src/processing.py)
 - [generators.py](src/generators.py)
+- [decorators.py](src/decorators.py)
 
 
 ---
@@ -180,6 +181,32 @@ poetry install
     0000 0000 0000 0004
     0000 0000 0000 0005
 
+
+5. **decorators.py**
+
+Этот модуль используется для размещения декораторов.
+
+- `def log()` - Декоратор, который автоматически логирует начало и конец выполнения функции, а также ее результаты или возникшие ошибки.
+
+Декоратор принимает необязательный аргумент filename, который определяет, куда будут записываться логи (в файл или в консоль):
+
+Если filename задан, логи записываются в указанный файл.
+
+Если filename не задан, логи выводятся в консоль.
+
+Логирование должно включать:
+
+Имя функции и результат выполнения при успешной операции.
+
+Имя функции, тип возникшей ошибки и входные параметры, если выполнение функции привело к ошибке.
+
+**Пример использования декоратора**
+
+`@log(filename="mylog.txt")
+ def my_function(x, y):
+     return x + y
+ my_function(1, 2)`
+
 ---
 
 
@@ -191,6 +218,7 @@ poetry install
 -[test_processing.py](tests/test_processing.py)
 -[test_widget.py](tests/test_widget.py)
 -[test_generators.py](tests/test_generators.py)
+-[test_decorators.py](tests/test_generators.py)
 
 ---
 
@@ -294,7 +322,13 @@ poetry install
 
 `def test_card_number_generator()` - *Функция проверяет корректность работы функции **card_number_generator***
 
-``
+6. **test_decorators.py**
+
+Модуль проверяет работу функций из модуля **decorators.py**.
+
+`def test_log_success` - *Функция проверяет работу декоратора в случае успешного выполнения*
+
+`def test_log_error` - *Функция проверяет работу декоратора в случае выпадения ошибки*
 
 ---
 
