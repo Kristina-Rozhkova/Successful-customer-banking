@@ -5,7 +5,7 @@ from src.utils import get_financial_transactions
 
 
 def test_get_financial_transactions_success():
-    # успешные открытие файла и работа функции
+    # успешное открытие файла и работу функции
     with patch('os.path.exists', return_value=True):
         with patch('builtins.open',
                    mock_open(read_data=json.dumps([{'amount': 500, 'currency': 'USD'}]))) as mock_open_file:
