@@ -27,6 +27,7 @@ def test_get_transaction_amount_usd(mock_request):
                                                    'query': {'from': 'USD', 'to': 'RUB', 'amount': 8221.37},
                                                    'info': {'timestamp': 1733913543, 'rate': 103.500991},
                                                    'date': '2024-12-11', 'result': 850919.942378}
+
     assert get_transaction_amount(transactions_for_external_api) == 850919.942378
 
 
