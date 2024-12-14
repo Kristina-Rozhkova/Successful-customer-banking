@@ -7,7 +7,7 @@ from src.external_api import get_transaction_amount
 
 @patch('requests.request')
 def test_get_transaction_amount_usd(mock_request):
-    transactions_for_external_api = [{
+    transactions_for_external_api = {
         "id": 41428829,
         "state": "EXECUTED",
         "date": "2019-07-03T18:35:29.512364",
@@ -21,7 +21,7 @@ def test_get_transaction_amount_usd(mock_request):
         "description": "Перевод организации",
         "from": "MasterCard 7158300734726758",
         "to": "Счет 35383033474447895560"
-    }]
+    }
 
     mock_request.return_value.json.return_value = {'success': True,
                                                    'query': {'from': 'USD', 'to': 'RUB', 'amount': 8221.37},
@@ -31,7 +31,7 @@ def test_get_transaction_amount_usd(mock_request):
 
 
 def test_get_transaction_amount_rub():
-    transactions_for_external_api = [{
+    transactions_for_external_api = {
         "id": 41428829,
         "state": "EXECUTED",
         "date": "2019-07-03T18:35:29.512364",
@@ -45,12 +45,12 @@ def test_get_transaction_amount_rub():
         "description": "Перевод организации",
         "from": "MasterCard 7158300734726758",
         "to": "Счет 35383033474447895560"
-    }]
+    }
     assert get_transaction_amount(transactions_for_external_api) == 8221.37
 
 
 def test_get_transaction_amount_with_error():
-    transactions_for_external_api = [{
+    transactions_for_external_api = {
         "id": 41428829,
         "state": "EXECUTED",
         "date": "2019-07-03T18:35:29.512364",
@@ -64,7 +64,7 @@ def test_get_transaction_amount_with_error():
         "description": "Перевод организации",
         "from": "MasterCard 7158300734726758",
         "to": "Счет 35383033474447895560"
-    }]
+    }
     with pytest.raises(ValueError) as ex_info:
         get_transaction_amount(transactions_for_external_api)
 
