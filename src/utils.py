@@ -1,7 +1,7 @@
 import json
 
 
-# json_path = r"..\data\operations.json"
+json_path = r"..\data\operations.json"
 
 
 def get_financial_transactions(json_path: str) -> dict | list:
@@ -9,8 +9,8 @@ def get_financial_transactions(json_path: str) -> dict | list:
     try:
         with open(json_path, 'r', encoding='utf-8') as file:
             json_file = json.load(file)
-            # если файл содержит словарь данных
-            if isinstance(json_file, dict):
+            # если файл содержит список данных
+            if isinstance(json_file, list):
                 return json_file
             else:
                 raise ValueError
@@ -22,4 +22,4 @@ def get_financial_transactions(json_path: str) -> dict | list:
         return []
 
 
-print(get_financial_transactions(r"..\data\operations2.json"))
+print(get_financial_transactions(json_path))
