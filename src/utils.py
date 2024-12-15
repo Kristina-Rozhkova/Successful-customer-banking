@@ -1,6 +1,5 @@
 import json
 
-
 json_path = r"..\data\operations.json"
 
 
