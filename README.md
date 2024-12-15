@@ -58,6 +58,8 @@ poetry install
 
   ```**4305  # выход функции```
 
+В данном модуле также используется логирование в файл data/masks.log.
+
 2. **widget.py**
 - `def mask_account_card()` - *Функция принимает номер карты или счета и маскирует его, в зависимости от принятых данных*
 
@@ -226,6 +228,8 @@ poetry install
 Файл с данными о финансовых транзациях operations.json размещен в директории *data* в корне проекта.
 
 Ссылка на файл: [operations.json](https://drive.google.com/file/d/1C0bUdTxUhck-7BoqXSR1wIEp33BH5YXy/view?usp=sharing).
+
+В данном модуле также используется логирование в файл data/utils.log.
 
 
 7. **external_api.py**
