@@ -26,11 +26,19 @@ poetry install
 - [processing.py](src/processing.py)
 - [generators.py](src/generators.py)
 - [decorators.py](src/decorators.py)
+- [utils.py](src/utils.py)
+- [external_api.py](src/external_api.py)
 
+
+**Пакет data содержит следующие файлы:**
+-[operations.json](data/operations.json) - для использования в модуле utils.py.
+-[operations1.json](data/operations1.json) - для использования в модуле external_api.py.
+
+**Файл .env.txt содержится в пакете src**
 
 ---
 
-**Содержание модулей и примеры работы функций**
+**Содержание модулей и примеры работы функций пакета src**
 
 1. **masks.py:**
 - `def get_mask_card_number()` - *Функция маскирует номера принимаемых карт*
@@ -186,7 +194,7 @@ poetry install
 
 Этот модуль используется для размещения декораторов.
 
-- `def log()` - Декоратор, который автоматически логирует начало и конец выполнения функции, а также ее результаты или возникшие ошибки.
+- `def log()` - *Декоратор, который автоматически логирует начало и конец выполнения функции, а также ее результаты или возникшие ошибки.*
 
 Декоратор принимает необязательный аргумент filename, который определяет, куда будут записываться логи (в файл или в консоль):
 
@@ -207,6 +215,29 @@ poetry install
      return x + y
  my_function(1, 2)`
 
+
+6. **utils.py**
+
+Этот модуль используется для работы с json-файлами.
+
+- `def get_financial_transactions()` - *Функция принимает на вход путь до JSON-файла и возвращает список словарей с данными о финансовых транзакциях.*
+
+Если файл пустой, содержит не список или не найден, функция возвращает пустой список. Функцию поместите в модуль utils.
+Файл с данными о финансовых транзациях operations.json размещен в директории *data* в корне проекта.
+
+Ссылка на файл: [operations.json](https://drive.google.com/file/d/1C0bUdTxUhck-7BoqXSR1wIEp33BH5YXy/view?usp=sharing).
+
+
+7. **external_api.py**
+
+Этот модуль используется для взаимодействия с внешними серверами по API-ключу.
+
+- `get_transaction_amount()` - *Функция принимает на вход транзакцию и возвращает сумму транзакции в рублях.*
+
+Если транзакция в USD или EUR, происходит обращение к внешнему API для получения текущего курса валют и конвертации суммы операции в рубли.
+
+Для конвертации валюты использовалось Exchange Rates Data API: https://apilayer.com/exchangerates_data-api. 
+
 ---
 
 
@@ -219,6 +250,8 @@ poetry install
 -[test_widget.py](tests/test_widget.py)
 -[test_generators.py](tests/test_generators.py)
 -[test_decorators.py](tests/test_generators.py)
+-[test_utils.py](tests/test_utils.py)
+-[test_external_api.py](tests/test_external_api.py)
 
 ---
 
@@ -329,6 +362,19 @@ poetry install
 `def test_log_success` - *Функция проверяет работу декоратора в случае успешного выполнения*
 
 `def test_log_error` - *Функция проверяет работу декоратора в случае выпадения ошибки*
+
+
+7. **test_utils.py**
+
+Модуль проверяет работу функций из модуля **utils.py**.
+
+`def test_get_financial_transactions_success()` - *Функция проверяет успешное открытие файла и работу функции.*
+
+`def test_get_financial_transactions_not_found()` - *Функция проверяет результат функции при ненайденном пути.*
+
+`test_get_financial_transactions_clear()` - *Функция проверяет результат функции, если файл пустой.*
+
+`def test_get_financial_transactions_not_list():` - *Функция проверяет результат функции, если файл содержит не список.*
 
 ---
 
