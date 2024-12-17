@@ -28,6 +28,7 @@ poetry install
 - [decorators.py](src/decorators.py)
 - [utils.py](src/utils.py)
 - [external_api.py](src/external_api.py)
+- [reading_csv_and_excel.py](src/reading_csv_and_excel.py)
 
 
 **Пакет data содержит следующие файлы:**
@@ -224,7 +225,7 @@ poetry install
 
 - `def get_financial_transactions()` - *Функция принимает на вход путь до JSON-файла и возвращает список словарей с данными о финансовых транзакциях.*
 
-Если файл пустой, содержит не список или не найден, функция возвращает пустой список. Функцию поместите в модуль utils.
+Если файл пустой, содержит не список или не найден, функция возвращает пустой список. 
 Файл с данными о финансовых транзациях operations.json размещен в директории *data* в корне проекта.
 
 Ссылка на файл: [operations.json](https://drive.google.com/file/d/1C0bUdTxUhck-7BoqXSR1wIEp33BH5YXy/view?usp=sharing).
@@ -242,6 +243,25 @@ poetry install
 
 Для конвертации валюты использовалось Exchange Rates Data API: https://apilayer.com/exchangerates_data-api. 
 
+
+8. **reading_csv_and_excel.py**
+
+Этот модуль используется для вывода данных их CSV-файлов и EXCEL-файлов.
+
+- `def csv_reader()` - *Функция используется для вывода данных из CSV-файлов, принимая на вход путь до нужных файлов*
+
+Если файл пустой, содержит не список или не найден, функция возвращает пустой список. 
+Файл с данными о финансовых транзациях transactions.csv размещен в директории *data* в корне проекта.
+
+Ссылка на файл: [transactions.csv](https://github.com/skypro-008/transactions/blob/main/transactions.csv)
+
+- `def excel_reader()` - *Функция используется для вывода данных из EXCEL-файлов, принимая на вход путь до нужных файлов*
+
+Если файл пустой, содержит не список или не найден, функция возвращает пустой список. 
+Файл с данными о финансовых транзациях transactions_excel.xlsx размещен в директории *data* в корне проекта.
+
+Ссылка на файл: [transactions_excel.xlsx](https://github.com/skypro-008/transactions/blob/main/transactions_excel.xlsx)
+
 ---
 
 
@@ -256,6 +276,7 @@ poetry install
 -[test_decorators.py](tests/test_generators.py)
 -[test_utils.py](tests/test_utils.py)
 -[test_external_api.py](tests/test_external_api.py)
+-[test_reading_csv_and_excel.py](tests/test_reading_csv_and_excel.py)
 
 ---
 
@@ -379,6 +400,23 @@ poetry install
 `test_get_financial_transactions_clear()` - *Функция проверяет результат функции, если файл пустой.*
 
 `def test_get_financial_transactions_not_list():` - *Функция проверяет результат функции, если файл содержит не список.*
+
+
+8. **test_reading_csv_and_excel.py**
+
+Модуль проверяет работу функций из модуля **reading_csv_and_excel.py**.
+
+- `def test_csv_reader_success()` - *Функция проверяет успешное открытие CSV-файла и работу функции.*
+
+- `test_csv_reader_not_found_error():` - *Функция проверяет результат функции при ненайденном пути до CSV-файла.*
+
+- `test_csv_reader_exception():` - *Функция проверяет результат функции при пустом CSV-файле.*
+
+- `test_excel_reader_success()` - *Функция проверяет успешное открытие EXCEL-файла и работу функции.*
+
+- `test_excel_reader_not_found_error():` - *Функция проверяет результат функции при ненайденном пути до EXCEL-файла.*
+
+- `test_excel_reader_exception():` - *Функция проверяет результат функции при пустом EXCEL-файле.*
 
 ---
 
