@@ -2,6 +2,7 @@ import json
 import logging
 import os
 
+
 # Получаем абсолютный путь до текущей директории
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
