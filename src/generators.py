@@ -60,8 +60,13 @@ def filter_by_currency(
         yield "Код валюты не найден. Пожалуйста, введите одну из имеющихся: USD или RUB"
 
     for transaction in some_transactions:
-        if transaction["operationAmount"]["currency"]["code"] == currency_code:
-            yield transaction
+        if "operationAmount" in transaction:
+            if transaction["operationAmount"]["currency"]["code"] == currency_code:
+                yield transaction
+
+        if "currency_code" in transaction:
+            if transaction["currency_code"] == currency_code:
+                yield transaction
 
 
 # для проверки работы функции

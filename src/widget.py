@@ -22,6 +22,7 @@ def mask_account_card(numb: str) -> str:
         if len(number_card) == 16:
             return name_of_card + get_mask_card_number(number_card)
         else:
+            print(number_card)
             raise ValueError("Неверная длина номера карты")
 
 

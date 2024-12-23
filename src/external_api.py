@@ -23,7 +23,7 @@ list_of_transactions = {
   }
 
 
-def get_transaction_amount(list_of_transactions: dict) -> float:
+def get_transaction_amount(list_of_transactions: dict) -> float | str:
     """Функция принимает на вход транзакцию и возвращает сумму транзакции в рублях"""
     # sum_of_amount = 0
     # for transactions in list_of_transactions:
@@ -44,7 +44,8 @@ def get_transaction_amount(list_of_transactions: dict) -> float:
             return float(response.json()['result'])
         else:
             raise ValueError("The currency didn't convert. Use one of this currency: RUB/USD/EUR.")
+    return 'Нет информации о сумме транзакций'
 
 
-if __name__ == '__main__':
-    print(get_transaction_amount(list_of_transactions))
+# if __name__ == '__main__':
+#     print(get_transaction_amount(list_of_transactions))
