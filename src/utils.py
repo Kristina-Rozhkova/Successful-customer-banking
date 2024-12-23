@@ -2,7 +2,6 @@ import json
 import logging
 import os
 
-
 # Получаем абсолютный путь до текущей директории
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -19,7 +18,7 @@ file_handler.setFormatter(file_formatter)
 logger.addHandler(file_handler)
 
 
-json_path = r"..\data\operations2.json"
+# json_path = r"..\data\operations2.json"
 
 
 def get_financial_transactions(json_path: str) -> dict | list:
@@ -41,9 +40,6 @@ def get_financial_transactions(json_path: str) -> dict | list:
     except ValueError:
         logger.error("Возникла ошибка ValueError, возврат пустого списка")
         return []
-    except Exception as ex:
-        logger.error(f"Возникла ошибка: {ex}, возврат пустого списка")
-        return []
 
 
-print(get_financial_transactions(json_path))
+# print(get_financial_transactions(json_path))

@@ -17,7 +17,7 @@ def test_csv_reader_success():
     with patch('pandas.read_csv', return_value=mock_data) as mock_read_csv:
         result = csv_reader('test.csv')
         assert result == mock_data.to_dict(orient='records')
-        mock_read_csv.assert_called_once_with('test.csv')
+        mock_read_csv.assert_called_once_with('test.csv', sep=';')
 
 
 def test_csv_reader_not_found_error():
@@ -33,7 +33,7 @@ def test_csv_reader_exception():
     with patch('pandas.read_csv', return_value='') as mock_read_csv:
         result = csv_reader('test.csv')
         assert result == []
-        mock_read_csv.assert_called_once_with('test.csv')
+        mock_read_csv.assert_called_once_with('test.csv', sep=';')
 
 
 def test_excel_reader_success():
@@ -48,7 +48,7 @@ def test_excel_reader_success():
     with patch('pandas.read_excel', return_value=mock_data) as mock_read_excel:
         result = excel_reader('test.excel')
         assert result == mock_data.to_dict(orient='records')
-        mock_read_excel.assert_called_once_with('test.excel')
+        mock_read_excel.assert_called_once_with('test.excel', engine='openpyxl')
 
 
 def test_excel_reader_not_found_error():
@@ -62,4 +62,4 @@ def test_excel_reader_exseption():
     with patch('pandas.read_excel', return_value='') as mock_read_excel:
         result = excel_reader('test.excel')
         assert result == []
-        mock_read_excel.assert_called_once_with('test.excel')
+        mock_read_excel.assert_called_once_with('test.excel', engine='openpyxl')

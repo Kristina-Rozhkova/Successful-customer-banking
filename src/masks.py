@@ -30,7 +30,7 @@ def get_mask_card_number(card_number: Union[int | str]) -> str:
         logger.info(f"Трансформация номера банковской карты {transformed_card_number}")
         return transformed_card_number
     logger.error(f"Введены некорректные данные номера карты {str_card_number}")
-    return "Введены некорректные данные номера карты "
+    return "Введены некорректные данные номера карты"
 
 
 def get_mask_account(account_number: Union[int | str]) -> str:
